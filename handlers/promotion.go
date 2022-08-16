@@ -1,8 +1,9 @@
 package handlers
 
 import (
-	"github.com/pradist/promotion/services"
 	"strconv"
+
+	"github.com/pradist/promotion/services"
 
 	"github.com/gofiber/fiber/v2"
 )

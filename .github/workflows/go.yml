@@ -13,10 +13,10 @@ jobs:
     steps:
       - name: Install Go
         uses: actions/setup-go@v3
-      - name: install mockery
+      - name: Install mockery
         run: |
           sudo apt-get -y install mockery
-      - name: generate mockery
+      - name: Generate mockery
         run: |
           mockery --all --keeptree --recursive
       - name: golangci-lint
