@@ -1,4 +1,4 @@
-module gotest
+module github.com/pradist/promotion
 
 go 1.17
 

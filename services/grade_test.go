@@ -2,7 +2,7 @@ package services_test
 
 import (
 	"fmt"
-	"gotest/services"
+	"github.com/pradist/promotion/services"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

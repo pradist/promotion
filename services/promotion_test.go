@@ -2,8 +2,8 @@ package services_test
 
 import (
 	"errors"
-	"gotest/repositories"
-	"gotest/services"
+	"github.com/pradist/promotion/repositories"
+	"github.com/pradist/promotion/services"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

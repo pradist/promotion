@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"gotest/services"
+	"github.com/pradist/promotion/services"
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"

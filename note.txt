@@ -1,7 +1,7 @@
-go test gotest/services -cover
-go test gotest/services -run="TestCheckGrade/A" -v
-go test gotest/services -bench=.
-go test gotest/services -bench=. -benchmem
+go test github.com/pradist/promotion/services -cover
+go test github.com/pradist/promotion/services -run="TestCheckGrade/A" -v
+go test github.com/pradist/promotion/services -bench=.
+go test github.com/pradist/promotion/services -bench=. -benchmem
 godoc -http:=8000
 
 1.

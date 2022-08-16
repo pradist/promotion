@@ -2,7 +2,7 @@ package services
 
 import (
 	"errors"
-	"gotest/repositories"
+	"github.com/pradist/promotion/repositories"
 )
 
 var (

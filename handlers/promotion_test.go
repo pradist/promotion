@@ -2,8 +2,8 @@ package handlers_test
 
 import (
 	"fmt"
-	"gotest/handlers"
-	"gotest/services"
+	"github.com/pradist/promotion/handlers"
+	"github.com/pradist/promotion/services"
 	"io"
 	"net/http/httptest"
 	"strconv"
