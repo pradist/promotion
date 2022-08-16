@@ -2,11 +2,13 @@ package services_test
 
 import (
 	"errors"
-	"github.com/pradist/promotion/repositories"
-	"github.com/pradist/promotion/services"
 	"testing"
 
+	"github.com/pradist/promotion/repositories"
+	"github.com/pradist/promotion/services"
 	"github.com/stretchr/testify/assert"
+
+	repoMock "github.com/pradist/promotion/mocks/repositories"
 )
 
 func TestPromotionCalculateDiscount(t *testing.T) {
@@ -27,17 +29,17 @@ func TestPromotionCalculateDiscount(t *testing.T) {
 
 	for _, c := range testCases {
 		t.Run(c.name, func(t *testing.T) {
-			//Arrage
-			promoRepo := repositories.NewPromotionRepositoryMock()
-			promoRepo.On("GetPromotion").Return(repositories.Promotion{
+			//Arrange
+			repo := &repoMock.PromotionRepository{}
+			repo.On("GetPromotion").Return(repositories.Promotion{
 				ID:              1,
 				PurchaseMin:     c.purchaseMin,
 				DiscountPercent: c.discountPercent,
 			}, nil)
-			promoSerivce := services.NewPromotionService(promoRepo)
+			promoService := services.NewPromotionService(repo)
 
 			// Act
-			discount, _ := promoSerivce.CalculateDiscount(c.amount)
+			discount, _ := promoService.CalculateDiscount(c.amount)
 			expected := c.expected
 
 			//Assert
@@ -46,28 +48,28 @@ func TestPromotionCalculateDiscount(t *testing.T) {
 	}
 
 	t.Run("TestErrorZeroAmount", func(t *testing.T) {
-		//Arrage
-		promoRepo := repositories.NewPromotionRepositoryMock()
-		promoRepo.On("GetPromotion").Return(repositories.Promotion{
+		//Arrange
+		repo := &repoMock.PromotionRepository{}
+		repo.On("GetPromotion").Return(repositories.Promotion{
 			ID:              1,
 			PurchaseMin:     100,
 			DiscountPercent: 50,
 		}, nil)
-		promoSerivce := services.NewPromotionService(promoRepo)
+		promoSerivce := services.NewPromotionService(repo)
 
 		// Act
 		_, err := promoSerivce.CalculateDiscount(0)
 
 		//Assert
 		assert.Error(t, err, services.ErrZeroAmount)
-		promoRepo.AssertNotCalled(t, "GetPromotion")
+		repo.AssertNotCalled(t, "GetPromotion")
 	})
 
 	t.Run("Purchase amount zero", func(t *testing.T) {
-		//Arrage
-		promoRepo := repositories.NewPromotionRepositoryMock()
-		promoRepo.On("GetPromotion").Return(repositories.Promotion{}, errors.New("Database error"))
-		promoSerivce := services.NewPromotionService(promoRepo)
+		//Arrange
+		repo := &repoMock.PromotionRepository{}
+		repo.On("GetPromotion").Return(repositories.Promotion{}, errors.New("Database error"))
+		promoSerivce := services.NewPromotionService(repo)
 
 		// Act
 		_, err := promoSerivce.CalculateDiscount(50)
