@@ -1,0 +1,62 @@
+go test gotest/services -cover
+go test gotest/services -run="TestCheckGrade/A" -v
+go test gotest/services -bench=.
+go test gotest/services -bench=. -benchmem
+godoc -http:=8000
+
+1.
+func TestCheckGradeA(t *testing.T) {
+	grade := services.CheckGrade(80)
+	expectd := "A"
+
+	if grade != expectd {
+		t.Errorf("got %v expected %v", grade, expectd)
+	}
+}
+
+2.
+t.Run("A", func(t *testing.T) {
+    grade := services.CheckGrade(80)
+    expectd := "A"
+
+    if grade != expectd {
+        t.Errorf("got %v expected %v", grade, expectd)
+    }
+})
+
+3.
+type testCase struct {
+    name     string
+    score    int
+    expected string
+}
+
+cases := []testCase{
+    {name: "a", score: 80, expected: "A"},
+    {name: "b", score: 70, expected: "B"},
+    {name: "c", score: 60, expected: "C"},
+    {name: "d", score: 50, expected: "D"},
+    {name: "f", score: 0, expected: "F"},
+}
+
+for _, c := range cases {
+    t.Run(c.name, func(t *testing.T) {
+        grade := services.CheckGrade(c.score)
+        expectd := c.expected
+
+        if grade != expectd {
+            t.Errorf("got %v expected %v", grade, expectd)
+        }
+    })
+}
+
+--Setting
+"go.coverOnSave": true,
+"go.coverOnSingleTest": true,
+"go.coverageDecorator": {
+    "type": "gutter",
+    "coveredHighlightColor": "rgba(64,128,128,0.5)",
+    "uncoveredHighlightColor": "rgba(128,64,64,0.25)",        
+    "coveredGutterStyle": "blockgreen",
+    "uncoveredGutterStyle": "blockred"
+},
