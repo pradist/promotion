@@ -34,6 +34,22 @@ jobs:
         uses: actions/setup-go@v3
         with:
           go-version: ${{ matrix.go-version }}
+      - name:  Install mockery
+        run:   |
+              if [ "$RUNNER_OS" == "Linux" ]; then
+                    sudo apt-get -y install mockery
+              elif [ "$RUNNER_OS" == "Windows" ]; then
+                    choco install mockery
+              elif [ "$RUNNER_OS" == "macOS" ]; then
+                    brew install mockery
+              else
+                    echo "$RUNNER_OS not supported"
+                    exit 1
+              fi
+        shell: bash
+      - name: Generate mockery
+        run: |
+          mockery --all --keeptree --recursive
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Run tests
