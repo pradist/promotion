@@ -27,16 +27,16 @@ jobs:
     steps:
       - name: Install Go
         uses: actions/setup-go@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
       - name: Install mockery
         run: |
           sudo apt-get -y install mockery
       - name: Generate mockery
         run: |
           mockery --all --keeptree --recursive
-      - name: Checkout code
-        uses: actions/checkout@v2
       - name: Run tests
-        run: go test ./... -v -covermode=count
+        run: go test ./... -v
 
   coverage:
     runs-on: ubuntu-latest
