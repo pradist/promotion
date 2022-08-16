@@ -26,10 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install Go
-        if: success()
         uses: actions/setup-go@v3
-        with:
-          go-version: ${{ matrix.go-version }}
       - name: Install mockery
         run: |
           sudo apt-get -y install mockery
@@ -45,10 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install Go
-        if: success()
         uses: actions/setup-go@v3
-        with:
-          go-version: 1.18.x
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Install mockery
