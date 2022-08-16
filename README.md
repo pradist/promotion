@@ -1,3 +1,3 @@
 # promotion
 
-# [Codecov](https://codecov.io)
+### [Codecov](https://codecov.io)
