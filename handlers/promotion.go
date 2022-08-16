@@ -20,7 +20,6 @@ func NewPromotionHandler(promoService services.PromotionService) PromotionHandle
 }
 
 func (h promotionHandler) CalculateDiscount(c *fiber.Ctx) error {
-
 	amountStr := c.Query("amount")
 	amount, err := strconv.Atoi(amountStr)
 	if err != nil {

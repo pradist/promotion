@@ -55,10 +55,10 @@ func TestPromotionCalculateDiscount(t *testing.T) {
 			PurchaseMin:     100,
 			DiscountPercent: 50,
 		}, nil)
-		promoSerivce := services.NewPromotionService(repo)
+		promoService := services.NewPromotionService(repo)
 
 		// Act
-		_, err := promoSerivce.CalculateDiscount(0)
+		_, err := promoService.CalculateDiscount(0)
 
 		//Assert
 		assert.Error(t, err, services.ErrZeroAmount)
@@ -68,11 +68,11 @@ func TestPromotionCalculateDiscount(t *testing.T) {
 	t.Run("Purchase amount zero", func(t *testing.T) {
 		//Arrange
 		repo := &repoMock.PromotionRepository{}
-		repo.On("GetPromotion").Return(repositories.Promotion{}, errors.New("Database error"))
-		promoSerivce := services.NewPromotionService(repo)
+		repo.On("GetPromotion").Return(repositories.Promotion{}, errors.New("database error"))
+		promoService := services.NewPromotionService(repo)
 
 		// Act
-		_, err := promoSerivce.CalculateDiscount(50)
+		_, err := promoService.CalculateDiscount(50)
 
 		//Assert
 		assert.Error(t, err, services.ErrRepository)
