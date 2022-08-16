@@ -50,13 +50,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Run coverage
-          run: go test ./... -race -coverprofile=coverage.out -covermode=atomic
+        run: go test ./... -race -coverprofile=coverage.out -covermode=atomic
       - name: Upload coverage to Codecov
-          uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v3
       - name: Upload coverage reports to Codecov
-          run: |
-            # Replace `linux` below with the appropriate OS
-            # Options are `alpine`, `linux`, `macos`, `windows`
-            curl -Os https://uploader.codecov.io/latest/linux/codecov
-            chmod +x codecov
-            ./codecov -t ${CODECOV_TOKEN}
+        run: |
+          # Replace `linux` below with the appropriate OS
+          # Options are `alpine`, `linux`, `macos`, `windows`
+          curl -Os https://uploader.codecov.io/latest/linux/codecov
+          chmod +x codecov
+          ./codecov -t ${CODECOV_TOKEN}
