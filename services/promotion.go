@@ -2,6 +2,7 @@ package services
 
 import (
 	"errors"
+
 	"github.com/pradist/promotion/repositories"
 )
 
@@ -23,7 +24,6 @@ func NewPromotionService(PromoRepo repositories.PromotionRepository) PromotionSe
 }
 
 func (p promotionService) CalculateDiscount(amount int) (int, error) {
-
 	if amount <= 0 {
 		return 0, ErrZeroAmount
 	}
