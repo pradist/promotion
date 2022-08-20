@@ -17,6 +17,9 @@ jobs:
         with:
           go-version: 1.18
 
+      - name: Checkout code
+        uses: actions/checkout@v3
+
       - name: Install mockery
         run: |
           sudo apt-get -y install mockery
