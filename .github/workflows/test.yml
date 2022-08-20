@@ -25,8 +25,13 @@ jobs:
         run: |
           mockery --all --keeptree --recursive
 
-      - name: golangci-lint
-        uses: golangci/golangci-lint-action@v3
+      - name: Install golangci-lint
+        run: |
+          go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.48.0
+
+      - name: Run golangci-lint
+        run: |
+          golangci-lint run -v --color always --timeout 5m
 
   test:
     runs-on: ubuntu-latest
