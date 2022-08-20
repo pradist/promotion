@@ -9,3 +9,18 @@ type Promotion struct {
 	PurchaseMin     int
 	DiscountPercent int
 }
+
+type promotionRepository struct {
+}
+
+func NewPromotionRepository() PromotionRepository {
+	return &promotionRepository{}
+}
+
+func (p *promotionRepository) GetPromotion() (Promotion, error) {
+	return Promotion{
+		ID:              1,
+		PurchaseMin:     100,
+		DiscountPercent: 10,
+	}, nil
+}
