@@ -13,6 +13,10 @@ func New() *fiber.App {
 	h := handlers.NewPromotionHandler(s)
 
 	app := fiber.New()
+	app.Get("/health", func(c *fiber.Ctx) error {
+		return c.Status(fiber.StatusOK).SendString("OK")
+	})
+
 	app.Get("/api/v1/promotion", h.CalculateDiscount)
 	return app
 }
