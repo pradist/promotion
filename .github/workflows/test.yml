@@ -20,13 +20,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Install mockery
+      - name: Install mockgen
         run: |
-          sudo apt-get -y install mockery
+          go install github.com/golang/mock/mockgen@v1.6.0
 
-      - name: Generate mockery
+      - name: Generate mock
         run: |
-          mockery --all --keeptree --recursive
+          go generate ./...
 
       - name: Install golangci-lint
         run: |
@@ -47,13 +47,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Install mockery
+      - name: Install mockgen
         run: |
-          sudo apt-get -y install mockery
+          go install github.com/golang/mock/mockgen@v1.6.0
 
-      - name: Generate mockery
+      - name: Generate mock
         run: |
-          mockery --all --keeptree --recursive
+          go generate ./...
 
       - name: Run tests
         run: go test ./... -v
@@ -69,13 +69,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Install mockery
+      - name: Install mockgen
         run: |
-          sudo apt-get -y install mockery
+          go install github.com/golang/mock/mockgen@v1.6.0
 
-      - name: Generate mockery
+      - name: Generate mock
         run: |
-          mockery --all --keeptree --recursive
+          go generate ./...
 
       - name: Run coverage
         run: go test ./... -race -coverprofile=coverage.out -covermode=atomic
