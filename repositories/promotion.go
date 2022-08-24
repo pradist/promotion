@@ -1,5 +1,7 @@
 package repositories
 
+//go:generate mockgen -source=./promotion.go -destination=../mocks/repositories/promotion.go
+
 type PromotionRepository interface {
 	GetPromotion() (Promotion, error)
 }

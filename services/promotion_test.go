@@ -2,6 +2,7 @@ package services_test
 
 import (
 	"errors"
+	"github.com/golang/mock/gomock"
 	"testing"
 
 	"github.com/pradist/promotion/repositories"
@@ -30,8 +31,10 @@ func TestPromotionCalculateDiscount(t *testing.T) {
 	for _, c := range testCases {
 		t.Run(c.name, func(t *testing.T) {
 			//Arrange
-			repo := &repoMock.PromotionRepository{}
-			repo.On("GetPromotion").Return(repositories.Promotion{
+			ctrl := gomock.NewController(t)
+			defer ctrl.Finish()
+			repo := repoMock.NewMockPromotionRepository(ctrl)
+			repo.EXPECT().GetPromotion().Return(repositories.Promotion{
 				ID:              1,
 				PurchaseMin:     c.purchaseMin,
 				DiscountPercent: c.discountPercent,
@@ -49,12 +52,9 @@ func TestPromotionCalculateDiscount(t *testing.T) {
 
 	t.Run("TestErrorZeroAmount", func(t *testing.T) {
 		//Arrange
-		repo := &repoMock.PromotionRepository{}
-		repo.On("GetPromotion").Return(repositories.Promotion{
-			ID:              1,
-			PurchaseMin:     100,
-			DiscountPercent: 50,
-		}, nil)
+		ctrl := gomock.NewController(t)
+		defer ctrl.Finish()
+		repo := repoMock.NewMockPromotionRepository(ctrl)
 		promoService := services.NewPromotionService(repo)
 
 		// Act
@@ -62,13 +62,14 @@ func TestPromotionCalculateDiscount(t *testing.T) {
 
 		//Assert
 		assert.Error(t, err, services.ErrZeroAmount)
-		repo.AssertNotCalled(t, "GetPromotion")
 	})
 
 	t.Run("Purchase amount zero", func(t *testing.T) {
 		//Arrange
-		repo := &repoMock.PromotionRepository{}
-		repo.On("GetPromotion").Return(repositories.Promotion{}, errors.New("database error"))
+		ctrl := gomock.NewController(t)
+		defer ctrl.Finish()
+		repo := repoMock.NewMockPromotionRepository(ctrl)
+		repo.EXPECT().GetPromotion().Return(repositories.Promotion{}, errors.New("database error"))
 		promoService := services.NewPromotionService(repo)
 
 		// Act
