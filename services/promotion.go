@@ -6,7 +6,7 @@ import (
 	"github.com/pradist/promotion/repositories"
 )
 
-//go:generate mockgen -source=./promotion.go -destination=../mocks/services/promotion.go
+//go:generate mockgen -source=./promotion.go -destination=mock_services/promotion.go
 
 var (
 	ErrZeroAmount = errors.New("purchase amount could not be zero")

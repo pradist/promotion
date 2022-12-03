@@ -3,17 +3,17 @@ package handlers_test
 import (
 	"errors"
 	"fmt"
-	"github.com/golang/mock/gomock"
 	"io"
 	"net/http/httptest"
 	"strconv"
 	"testing"
 
-	"github.com/gofiber/fiber/v2"
 	"github.com/pradist/promotion/handlers"
-	"github.com/stretchr/testify/assert"
+	"github.com/pradist/promotion/services/mock_services"
 
-	serviceMock "github.com/pradist/promotion/mocks/services"
+	"github.com/gofiber/fiber/v2"
+	"github.com/golang/mock/gomock"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestCalculateDiscount(t *testing.T) {
@@ -23,7 +23,7 @@ func TestCalculateDiscount(t *testing.T) {
 
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
-		service := serviceMock.NewMockPromotionService(ctrl)
+		service := mock_services.NewMockPromotionService(ctrl)
 		service.EXPECT().CalculateDiscount(amount).Return(expected, nil)
 		promoHandler := handlers.NewPromotionHandler(service)
 
@@ -46,7 +46,7 @@ func TestCalculateDiscount(t *testing.T) {
 	t.Run("failure_badRequest", func(t *testing.T) {
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
-		service := serviceMock.NewMockPromotionService(ctrl)
+		service := mock_services.NewMockPromotionService(ctrl)
 		promoHandler := handlers.NewPromotionHandler(service)
 
 		app := fiber.New()
@@ -68,7 +68,7 @@ func TestCalculateDiscount(t *testing.T) {
 
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
-		service := serviceMock.NewMockPromotionService(ctrl)
+		service := mock_services.NewMockPromotionService(ctrl)
 		service.EXPECT().CalculateDiscount(amount).Return(0, errors.New("error"))
 		promoHandler := handlers.NewPromotionHandler(service)
 
