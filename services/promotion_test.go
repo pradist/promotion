@@ -2,14 +2,14 @@ package services_test
 
 import (
 	"errors"
-	"github.com/golang/mock/gomock"
 	"testing"
 
 	"github.com/pradist/promotion/repositories"
+	"github.com/pradist/promotion/repositories/mock_repositories"
 	"github.com/pradist/promotion/services"
-	"github.com/stretchr/testify/assert"
 
-	repoMock "github.com/pradist/promotion/mocks/repositories"
+	"github.com/golang/mock/gomock"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestPromotionCalculateDiscount(t *testing.T) {
@@ -33,7 +33,7 @@ func TestPromotionCalculateDiscount(t *testing.T) {
 			//Arrange
 			ctrl := gomock.NewController(t)
 			defer ctrl.Finish()
-			repo := repoMock.NewMockPromotionRepository(ctrl)
+			repo := mock_repositories.NewMockPromotionRepository(ctrl)
 			repo.EXPECT().GetPromotion().Return(repositories.Promotion{
 				ID:              1,
 				PurchaseMin:     c.purchaseMin,
@@ -54,7 +54,7 @@ func TestPromotionCalculateDiscount(t *testing.T) {
 		//Arrange
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
-		repo := repoMock.NewMockPromotionRepository(ctrl)
+		repo := mock_repositories.NewMockPromotionRepository(ctrl)
 		promoService := services.NewPromotionService(repo)
 
 		// Act
@@ -68,7 +68,7 @@ func TestPromotionCalculateDiscount(t *testing.T) {
 		//Arrange
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
-		repo := repoMock.NewMockPromotionRepository(ctrl)
+		repo := mock_repositories.NewMockPromotionRepository(ctrl)
 		repo.EXPECT().GetPromotion().Return(repositories.Promotion{}, errors.New("database error"))
 		promoService := services.NewPromotionService(repo)
 
