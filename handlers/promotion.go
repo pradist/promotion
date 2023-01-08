@@ -1,15 +1,15 @@
 package handlers
 
 import (
+	"github.com/gin-gonic/gin"
+	"net/http"
 	"strconv"
 
 	"github.com/pradist/promotion/services"
-
-	"github.com/gofiber/fiber/v2"
 )
 
 type PromotionHandler interface {
-	CalculateDiscount(c *fiber.Ctx) error
+	CalculateDiscount(c *gin.Context)
 }
 
 type promotionHandler struct {
@@ -20,17 +20,19 @@ func NewPromotionHandler(promoService services.PromotionService) PromotionHandle
 	return promotionHandler{promoService: promoService}
 }
 
-func (h promotionHandler) CalculateDiscount(c *fiber.Ctx) error {
+func (h promotionHandler) CalculateDiscount(c *gin.Context) {
 	amountStr := c.Query("amount")
 	amount, err := strconv.Atoi(amountStr)
 	if err != nil {
-		return c.SendStatus(fiber.StatusBadRequest)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 
 	discount, err := h.promoService.CalculateDiscount(amount)
 	if err != nil {
-		return c.SendStatus(fiber.StatusNotFound)
+		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+		return
 	}
 
-	return c.SendString(strconv.Itoa(discount))
+	c.String(http.StatusOK, "%d", discount)
 }

@@ -1,22 +1,25 @@
 package router
 
 import (
-	"github.com/gofiber/fiber/v2"
+	"github.com/gin-gonic/gin"
 	"github.com/pradist/promotion/handlers"
 	"github.com/pradist/promotion/repositories"
 	"github.com/pradist/promotion/services"
+	"net/http"
 )
 
-func New() *fiber.App {
+func New() *gin.Engine {
 	r := repositories.NewPromotionRepository()
 	s := services.NewPromotionService(r)
 	h := handlers.NewPromotionHandler(s)
 
-	app := fiber.New()
-	app.Get("/health", func(c *fiber.Ctx) error {
-		return c.Status(fiber.StatusOK).SendString("OK")
+	app := gin.Default()
+	app.GET("/health", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
+			"message": "OK",
+		})
 	})
 
-	app.Get("/api/v1/promotion", h.CalculateDiscount)
+	app.GET("/api/v1/promotion", h.CalculateDiscount)
 	return app
 }
