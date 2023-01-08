@@ -4,16 +4,18 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"net/http"
 	"net/http/httptest"
 	"strconv"
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+
 	"github.com/pradist/promotion/handlers"
 	"github.com/pradist/promotion/services/mock_services"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gin-gonic/gin"
 	"github.com/golang/mock/gomock"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestCalculateDiscount(t *testing.T) {
@@ -27,21 +29,22 @@ func TestCalculateDiscount(t *testing.T) {
 		service.EXPECT().CalculateDiscount(amount).Return(expected, nil)
 		promoHandler := handlers.NewPromotionHandler(service)
 
-		app := fiber.New()
-		app.Get("/calculate", promoHandler.CalculateDiscount)
-		req := httptest.NewRequest("GET", fmt.Sprintf("/calculate?amount=%v", amount), nil)
+		gin.SetMode(gin.TestMode)
+		res := httptest.NewRecorder()
+		ctx, r := gin.CreateTestContext(res)
+		r.GET("/calculate", promoHandler.CalculateDiscount)
+		req, err := http.NewRequestWithContext(ctx, "GET", fmt.Sprintf("/calculate?amount=%v", amount), nil)
+		if err != nil {
+			t.Errorf("got error: %s", err)
+		}
 
 		//Act
-		res, _ := app.Test(req)
-		defer func(Body io.ReadCloser) {
-			_ = Body.Close()
-		}(res.Body)
+		r.ServeHTTP(res, req)
 
 		//Assert
-		if assert.Equal(t, fiber.StatusOK, res.StatusCode) {
-			body, _ := io.ReadAll(res.Body)
-			assert.Equal(t, strconv.Itoa(expected), string(body))
-		}
+		assert.Equal(t, http.StatusOK, res.Code)
+		body, _ := io.ReadAll(res.Body)
+		assert.Equal(t, strconv.Itoa(expected), string(body))
 	})
 	t.Run("failure_badRequest", func(t *testing.T) {
 		ctrl := gomock.NewController(t)
@@ -49,19 +52,21 @@ func TestCalculateDiscount(t *testing.T) {
 		service := mock_services.NewMockPromotionService(ctrl)
 		promoHandler := handlers.NewPromotionHandler(service)
 
-		app := fiber.New()
-		app.Get("/calculate", promoHandler.CalculateDiscount)
+		gin.SetMode(gin.TestMode)
+		res := httptest.NewRecorder()
+		ctx, r := gin.CreateTestContext(res)
+		r.GET("/calculate", promoHandler.CalculateDiscount)
 
-		req := httptest.NewRequest("GET", fmt.Sprintf("/calculate?amount=%v", "A"), nil)
+		req, err := http.NewRequestWithContext(ctx, "GET", fmt.Sprintf("/calculate?amount=%v", "A"), nil)
+		if err != nil {
+			t.Errorf("got error: %s", err)
+		}
 
 		//Act
-		res, _ := app.Test(req)
-		defer func(Body io.ReadCloser) {
-			_ = Body.Close()
-		}(res.Body)
+		r.ServeHTTP(res, req)
 
 		//Assert
-		assert.Equal(t, fiber.StatusBadRequest, res.StatusCode)
+		assert.Equal(t, http.StatusBadRequest, res.Code)
 	})
 	t.Run("failure_serviceReturnError", func(t *testing.T) {
 		amount := 100
@@ -72,17 +77,20 @@ func TestCalculateDiscount(t *testing.T) {
 		service.EXPECT().CalculateDiscount(amount).Return(0, errors.New("error"))
 		promoHandler := handlers.NewPromotionHandler(service)
 
-		app := fiber.New()
-		app.Get("/calculate", promoHandler.CalculateDiscount)
-		req := httptest.NewRequest("GET", fmt.Sprintf("/calculate?amount=%v", amount), nil)
+		gin.SetMode(gin.TestMode)
+		res := httptest.NewRecorder()
+		ctx, r := gin.CreateTestContext(res)
+		r.GET("/calculate", promoHandler.CalculateDiscount)
+
+		req, err := http.NewRequestWithContext(ctx, "GET", fmt.Sprintf("/calculate?amount=%v", amount), nil)
+		if err != nil {
+			t.Errorf("got error: %s", err)
+		}
 
 		//Act
-		res, _ := app.Test(req)
-		defer func(Body io.ReadCloser) {
-			_ = Body.Close()
-		}(res.Body)
+		r.ServeHTTP(res, req)
 
 		//Assert
-		assert.Equal(t, fiber.StatusNotFound, res.StatusCode)
+		assert.Equal(t, http.StatusNotFound, res.Code)
 	})
 }
