@@ -5,7 +5,6 @@ import (
 	"github.com/pradist/promotion/handlers"
 	"github.com/pradist/promotion/repositories"
 	"github.com/pradist/promotion/services"
-	"net/http"
 )
 
 func New() *gin.Engine {
@@ -14,12 +13,8 @@ func New() *gin.Engine {
 	h := handlers.NewPromotionHandler(s)
 
 	app := gin.Default()
-	app.GET("/health", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "OK",
-		})
-	})
-
+	app.GET("/health", Health)
 	app.GET("/api/v1/promotion", h.CalculateDiscount)
+
 	return app
 }

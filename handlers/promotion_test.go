@@ -9,13 +9,12 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
-
 	"github.com/pradist/promotion/handlers"
 	"github.com/pradist/promotion/services/mock_services"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang/mock/gomock"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestCalculateDiscount(t *testing.T) {
