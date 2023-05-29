@@ -1,4 +1,5 @@
+.DS_Store
 .idea
-mock*
 
 coverage.out
+mock*
