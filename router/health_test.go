@@ -7,12 +7,16 @@ import (
 	"testing"
 
 	"github.com/gin-gonic/gin"
-	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
+type HealthResponse struct {
+	Message string `json:"message"`
+}
+
 func TestHealth(t *testing.T) {
-	expected := gin.H{
-		"message": "OK",
+	expected := HealthResponse{
+		Message: "OK",
 	}
 
 	gin.SetMode(gin.TestMode)
@@ -28,15 +32,11 @@ func TestHealth(t *testing.T) {
 	//Act
 	r.ServeHTTP(res, req)
 
-	var response map[string]string
-	err = json.Unmarshal([]byte(res.Body.Bytes()), &response)
-	if err != nil {
-		t.Errorf("got error: %s", err)
-	}
-	value, exists := response["message"]
+	var response HealthResponse
+	err = json.Unmarshal(res.Body.Bytes(), &response)
+	require.NoError(t, err, "failed to unmarshal response")
 
 	//Assert
-	assert.Equal(t, http.StatusOK, res.Code)
-	assert.True(t, exists)
-	assert.Equal(t, expected["message"], value)
+	require.Equal(t, http.StatusOK, res.Code, "unexpected status code")
+	require.Equal(t, expected.Message, response.Message, "unexpected response message")
 }
