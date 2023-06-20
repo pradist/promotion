@@ -7,7 +7,7 @@ import (
 	"testing"
 
 	"github.com/gin-gonic/gin"
-	"github.com/stretchr/testify/require"
+	"github.com/stretchr/testify/assert"
 )
 
 type HealthResponse struct {
@@ -29,14 +29,11 @@ func TestHealth(t *testing.T) {
 		t.Errorf("got error: %s", err)
 	}
 
-	//Act
 	r.ServeHTTP(res, req)
-
 	var response HealthResponse
 	err = json.Unmarshal(res.Body.Bytes(), &response)
-	require.NoError(t, err, "failed to unmarshal response")
 
-	//Assert
-	require.Equal(t, http.StatusOK, res.Code, "unexpected status code")
-	require.Equal(t, expected.Message, response.Message, "unexpected response message")
+	assert.NoError(t, err, "failed to unmarshal response")
+	assert.Equal(t, http.StatusOK, res.Code, "unexpected status code")
+	assert.Equal(t, expected.Message, response.Message, "unexpected response message")
 }
