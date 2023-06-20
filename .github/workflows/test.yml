@@ -16,7 +16,6 @@ jobs:
         uses: actions/setup-go@v3
         with:
           go-version: 1.18
-          fetch-depth: 0
 
       - name: Checkout code
         uses: actions/checkout@v3
@@ -36,9 +35,6 @@ jobs:
       - name: Run golangci-lint
         run: |
           golangci-lint run -v --color always --timeout 5m
-
-      - name: 'Qodana Scan'
-        uses: JetBrains/qodana-action@v2023.1.4
 
   test:
     runs-on: ubuntu-latest
@@ -94,3 +90,14 @@ jobs:
           curl -Os https://uploader.codecov.io/latest/linux/codecov
           chmod +x codecov
           ./codecov -t ${CODECOV_TOKEN}
+
+  qodana:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: 'Qodana Scan'
+        uses: JetBrains/qodana-action@v2023.1.4
+        env:
+          QODANA_TOKEN: ${QODANA_TOKEN}
