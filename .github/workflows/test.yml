@@ -90,14 +90,3 @@ jobs:
           curl -Os https://uploader.codecov.io/latest/linux/codecov
           chmod +x codecov
           ./codecov -t ${CODECOV_TOKEN}
-
-  qodana:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: 'Qodana Scan'
-        uses: JetBrains/qodana-action@main
-        env:
-          QODANA_TOKEN: ${QODANA_TOKEN}
