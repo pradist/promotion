@@ -1,3 +1,5 @@
+ci:
+  skip: [go-sec, go-vet]
 repos:
 - repo: local
   hooks:
