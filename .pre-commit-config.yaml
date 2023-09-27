@@ -1,5 +1,5 @@
 ci:
-  skip: [go-sec, go-vetgo-lint, go-imports, go-cyclo, validate-toml, no-go-testing, golangci-lint, go-critic, go-unit-tests, go-build]
+  skip: [go-sec, go-vet, go-lint, go-imports, go-cyclo, validate-toml, no-go-testing, golangci-lint, go-critic, go-unit-tests, go-build]
 repos:
 - repo: local
   hooks:
