@@ -8,16 +8,18 @@ repos:
     pass_filenames: false
     files: .*\.go
 
-- repo: https://github.com/tekwizely/pre-commit-golang
-  rev: v1.0.0-rc.1
+- repo: https://github.com/dnephin/pre-commit-golang
+  rev: v0.5.1
   hooks:
     - id: go-fmt
     - id: go-vet
     - id: go-lint
     - id: go-imports
+    - id: go-cyclo
+    - id: validate-toml
+    - id: no-go-testing
     - id: golangci-lint
     - id: go-critic
-    - id: go-build-mod
+    - id: go-unit-tests
+    - id: go-build
     - id: go-mod-tidy
-    - id: go-test-mod
-    - id: my-cmd
