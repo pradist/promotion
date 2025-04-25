@@ -1,3 +1,4 @@
 ignore:
-  - main.go
-  - cmd/**/main.go
+  - "**/main.go"
+  - "**/mocks/**"
+  - "**/*_generated.go"
