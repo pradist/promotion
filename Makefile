@@ -9,3 +9,6 @@ rm-mock:
 
 gen-mock:
 	go generate ./...
+
+run:
+	go run ./cmd/promotion
