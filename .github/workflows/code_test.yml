@@ -24,6 +24,9 @@ jobs:
       - name: Generate mock
         run: go generate ./...
 
+      - name: Clean Go build cache
+        run: go clean -cache -testcache -modcache
+
       - name: Install golangci-lint
         run: go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.55.2
 
