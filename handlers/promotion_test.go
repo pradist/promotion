@@ -13,8 +13,8 @@ import (
 	"github.com/pradist/promotion/services/mock_services"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
-	"go.uber.org/mock/gomock"
 )
 
 func TestCalculateDiscount(t *testing.T) {
