@@ -8,8 +8,8 @@ import (
 	"github.com/pradist/promotion/repositories/mock_repositories"
 	"github.com/pradist/promotion/services"
 
-	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
+	"go.uber.org/mock/gomock"
 )
 
 func TestPromotionCalculateDiscount(t *testing.T) {
