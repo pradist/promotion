@@ -27,3 +27,4 @@ jobs:
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN_699545152 }}
           QODANA_ENDPOINT: 'https://qodana.cloud'
+          QODANA_COVERAGE_REPORT_PATH: coverage.out
