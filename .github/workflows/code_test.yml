@@ -25,7 +25,7 @@ jobs:
         run: go generate ./...
 
       - name: Install golangci-lint
-        run: go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.48.0
+        run: go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.55.2
 
       - name: Run golangci-lint
         run: golangci-lint run -v --color always --timeout 5m
