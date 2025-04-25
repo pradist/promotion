@@ -28,7 +28,7 @@ jobs:
         run: go clean -cache -testcache -modcache
 
       - name: Install golangci-lint
-        run: go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.55.2
+        run: go install github.com/golangci/golangci-lint/cmd/golangci-lint@v2.1.5
 
       - name: Run golangci-lint
         run: golangci-lint run -v --color always --timeout 5m
