@@ -2,4 +2,6 @@
 .idea
 
 coverage.out
+coverage.html
+
 mock*
