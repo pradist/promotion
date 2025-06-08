@@ -15,6 +15,7 @@ func New() *gin.Engine {
 	app := gin.Default()
 	app.GET("/health", Health)
 	app.GET("/api/v1/promotion", h.CalculateDiscount)
+	app.SetTrustedProxies(nil)
 
 	return app
 }
