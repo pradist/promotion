@@ -19,3 +19,9 @@ gen-mock:
 
 run:
 	go run ./cmd/promotion
+
+build-image:
+	docker build -t promotion:latest .
+
+podman-run:
+	podman run --rm --name my-promotion -p 8080:8080 promotion:latest
