@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
+	"runtime/debug"
 	"testing"
 
 	"github.com/gin-gonic/gin"
@@ -36,4 +37,14 @@ func TestVersion(t *testing.T) {
 	assert.NoError(t, err, "failed to unmarshal response")
 	assert.Equal(t, http.StatusOK, res.Code, "unexpected status code")
 	assert.Equal(t, expected.Version, response.Version, "unexpected version")
+}
+
+func TestAppVersion_returnUnknownWhenReadBuildInfoFails(t *testing.T) {
+	orig := readBuildInfo
+	readBuildInfo = func() (*debug.BuildInfo, bool) {
+		return nil, false
+	}
+	defer func() { readBuildInfo = orig }()
+
+	assert.Equal(t, "unknown", AppVersion())
 }

@@ -7,8 +7,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+var readBuildInfo = debug.ReadBuildInfo
+
 func AppVersion() string {
-	if build, ok := debug.ReadBuildInfo(); ok {
+	if build, ok := readBuildInfo(); ok {
 		return build.Main.Version
 	}
 	return "unknown"

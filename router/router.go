@@ -7,6 +7,10 @@ import (
 	"github.com/pradist/promotion/services"
 )
 
+var setTrustedProxies = func(app *gin.Engine) error {
+	return app.SetTrustedProxies(nil)
+}
+
 func New() *gin.Engine {
 	r := repositories.NewPromotionRepository()
 	s := services.NewPromotionService(r)
@@ -16,7 +20,7 @@ func New() *gin.Engine {
 	app.GET("/health", Health)
 	app.GET("/version", Version)
 	app.GET("/api/v1/promotion", h.CalculateDiscount)
-	if err := app.SetTrustedProxies(nil); err != nil {
+	if err := setTrustedProxies(app); err != nil {
 		panic(err)
 	}
 
