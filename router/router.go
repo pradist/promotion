@@ -14,8 +14,11 @@ func New() *gin.Engine {
 
 	app := gin.Default()
 	app.GET("/health", Health)
+	app.GET("/version", Version)
 	app.GET("/api/v1/promotion", h.CalculateDiscount)
-	app.SetTrustedProxies(nil)
+	if err := app.SetTrustedProxies(nil); err != nil {
+		panic(err)
+	}
 
 	return app
 }
