@@ -1,7 +1,10 @@
 .DS_Store
 .idea
 
+cover.out
 coverage.out
 coverage.html
 
 mock*
+
+promotion

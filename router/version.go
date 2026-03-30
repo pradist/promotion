@@ -10,7 +10,7 @@ import (
 var readBuildInfo = debug.ReadBuildInfo
 
 func AppVersion() string {
-	if build, ok := readBuildInfo(); ok {
+	if build, ok := readBuildInfo(); ok && build.Main.Version != "" {
 		return build.Main.Version
 	}
 	return "unknown"
